@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Determine changed services
+      id: get_changed_services
+      run: |
+        changed_services=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | awk -F"/" '{print $1}' | sort -u)
+        echo "Changed services: $changed_services"
+        echo "CHANGED_SERVICES=$changed_services" >> $GITHUB_ENV
+
+    - name: Login to DockerHub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build and push changed services
+      run: |
+        for service in $CHANGED_SERVICES; do
+            echo "Processing $service..."
+
+            # Lógica de determinação da versão já explicada anteriormente
+            response=$(curl -s "https://hub.docker.com/v2/repositories/rafaelsulimann/$service/tags/")
+            if [[ $(echo "$response" | jq '.count') -gt 0 ]]; then
+                version=$(echo "$response" | jq -r '.results[0].name' | awk -F"v" '{print $2 + 1}')
+            else
+                version=1
+            fi
+
+            # Build da imagem
+            docker build -t rafaelsulimann/$service:v$version -t rafaelsulimann/$service:latest $service/
+
+            # Push das tags
+            docker push rafaelsulimann/$service:v$version
+            docker push rafaelsulimann/$service:latest
+        done
