@@ -44,8 +44,14 @@ jobs:
 
             # Lógica de determinação da versão já explicada anteriormente
             response=$(curl -s "https://hub.docker.com/v2/repositories/rafaelsulimann/$service/tags/")
+            
+            # Depurando a resposta do Docker Hub
+            echo "Resposta do Docker Hub: $response"
+            
             if [[ $(echo "$response" | jq '.count') -gt 0 ]]; then
-                version=$(echo "$response" | jq -r '.results[0].name' | awk -F"v" '{print $2 + 1}')
+                version=$(echo "$response" | jq -r '.results[0].name' | grep -o '[0-9]*' | awk '{print $1 + 1}')
+                # Depurando a versão extraída
+                echo "Versão extraída: v$version"
             else
                 version=1
             fi

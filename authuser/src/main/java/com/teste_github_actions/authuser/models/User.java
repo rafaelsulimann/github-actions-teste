@@ -8,6 +8,7 @@ public class User {
     private String password;
     private String sobrenome;
     private String nomeNamorada;
+    private String nomeMae;
 
     public String getName() {
         return name;
@@ -55,6 +56,14 @@ public class User {
 
     public void setNomeNamorada(String nomeNamorada) {
         this.nomeNamorada = nomeNamorada;
+    }
+
+    public String getNomeMae() {
+        return nomeMae;
+    }
+
+    public void setNomeMae(String nomeMae) {
+        this.nomeMae = nomeMae;
     }
 
 }
