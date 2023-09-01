@@ -6,6 +6,7 @@ public class User {
     private String email;
     private String phone;
     private String password;
+    private String sobrenome;
 
     public String getName() {
         return name;
@@ -37,6 +38,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public void setSobrenome(String sobrenome) {
+        this.sobrenome = sobrenome;
     }
 
 }
