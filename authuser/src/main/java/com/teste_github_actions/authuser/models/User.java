@@ -10,6 +10,7 @@ public class User {
     private String nomeNamorada;
     private String nomeMae;
     private String nomePai;
+    private String nomeIrmao;
 
     public String getName() {
         return name;
@@ -73,6 +74,14 @@ public class User {
 
     public void setNomePai(String nomePai) {
         this.nomePai = nomePai;
+    }
+
+    public String getNomeIrmao() {
+        return nomeIrmao;
+    }
+
+    public void setNomeIrmao(String nomeIrmao) {
+        this.nomeIrmao = nomeIrmao;
     }
 
 }
