@@ -43,7 +43,7 @@ jobs:
             echo "Processing $service..."
 
             # Lógica de determinação da versão já explicada anteriormente
-            response=$(curl -s "https://hub.docker.com/v2/repositories/***/$service/tags/")
+            response=$(curl -s "https://hub.docker.com/v2/repositories/rafaelsulimann/$service/tags/")
             if [[ $(echo "$response" | jq '.count') -gt 0 ]]; then
                 version=$(echo "$response" | jq -r '.results[0].name' | awk -F"v" '{print $2 + 1}')
             else
@@ -51,9 +51,9 @@ jobs:
             fi
 
             # Build da imagem
-            docker build -t ***/$service:v$version -t ***/$service:latest $service/
+            docker build -t rafaelsulimann/$service:v$version -t rafaelsulimann/$service:latest $service/
 
             # Push das tags
-            docker push ***/$service:v$version
-            docker push ***/$service:latest
+            docker push rafaelsulimann/$service:v$version
+            docker push rafaelsulimann/$service:latest
         done
