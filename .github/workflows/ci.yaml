@@ -12,17 +12,19 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
+      with:
+        fetch-depth: 0
+    
     - name: Determine changed services
       id: get_changed_services
       run: |
-        if [ "${{ github.event.before }}" = "0000000000000000000000000000000000000000" ]; then
-          echo "No previous commit to compare with."
-          echo "CHANGED_SERVICES=" >> $GITHUB_ENV
-        else
+        if git cat-file -e ${{ github.event.before }} && git cat-file -e ${{ github.sha }}; then
           changed_services=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | awk -F"/" '{print $1}' | sort -u)
           echo "Changed services: $changed_services"
           echo "CHANGED_SERVICES=$changed_services" >> $GITHUB_ENV
+        else
+          echo "Um ou ambos os commits não existem no repositório."
+          echo "CHANGED_SERVICES=" >> $GITHUB_ENV
         fi
 
     - name: Login to DockerHub
