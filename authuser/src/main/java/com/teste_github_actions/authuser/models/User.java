@@ -9,6 +9,7 @@ public class User {
     private String sobrenome;
     private String nomeNamorada;
     private String nomeMae;
+    private String nomePai;
 
     public String getName() {
         return name;
@@ -64,6 +65,14 @@ public class User {
 
     public void setNomeMae(String nomeMae) {
         this.nomeMae = nomeMae;
+    }
+
+    public String getNomePai() {
+        return nomePai;
+    }
+
+    public void setNomePai(String nomePai) {
+        this.nomePai = nomePai;
     }
 
 }
