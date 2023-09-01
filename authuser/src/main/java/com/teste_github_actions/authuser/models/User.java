@@ -7,6 +7,7 @@ public class User {
     private String phone;
     private String password;
     private String sobrenome;
+    private String nomeNamorada;
 
     public String getName() {
         return name;
@@ -46,6 +47,14 @@ public class User {
 
     public void setSobrenome(String sobrenome) {
         this.sobrenome = sobrenome;
+    }
+
+    public String getNomeNamorada() {
+        return nomeNamorada;
+    }
+
+    public void setNomeNamorada(String nomeNamorada) {
+        this.nomeNamorada = nomeNamorada;
     }
 
 }
