@@ -60,7 +60,6 @@ jobs:
         # Define uma lista de diretórios a serem ignorados.
         IGNORED_DIRECTORIES=(".github")
 
-				# Armazenando o valor da secret em uma variável para fácil referência.
         DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
 
         # Itera sobre cada serviço alterado.
@@ -74,7 +73,6 @@ jobs:
             echo "Processing $service..."
 
             # Busca as tags existentes para esse serviço no DockerHub.
-						# Usando a variável DOCKER_USERNAME em vez do nome de usuário hardcoded.
             response=$(curl -s "https://hub.docker.com/v2/repositories/$DOCKER_USERNAME/$service/tags/")
 
             # Exibe a resposta do DockerHub.
@@ -99,7 +97,6 @@ jobs:
             fi
 
             # Constrói a imagem Docker para o serviço e a taggeia com a versão e "latest".
-						# Usando a variável DOCKER_USERNAME em vez do nome de usuário hardcoded.
             docker build -t $DOCKER_USERNAME/$service:v$version -t $DOCKER_USERNAME/$service:latest $service/
             # Envia (push) ambas as tags (versão e latest) para o DockerHub.
             docker push $DOCKER_USERNAME/$service:v$version
